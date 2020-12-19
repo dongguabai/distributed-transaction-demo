@@ -1,9 +1,9 @@
 package com.dongguabai.distributedtransaction.xa;
 
 
-import com.mysql.jdbc.ConnectionImpl;
-import com.mysql.jdbc.jdbc2.optional.MysqlXAConnection;
-import com.mysql.jdbc.jdbc2.optional.MysqlXid;
+import com.mysql.cj.jdbc.ConnectionImpl;
+import com.mysql.cj.jdbc.MysqlXAConnection;
+import com.mysql.cj.jdbc.MysqlXid;
 
 import javax.sql.XAConnection;
 import javax.transaction.xa.XAException;
@@ -25,12 +25,12 @@ public class MysqlXaTest {
         //true表示打印XA语句,，用于调试
         boolean logXaCommands = true;
         // 获得资源管理器操作接口实例 RM1
-        Connection conn1 = DriverManager.getConnection("jdbc:mysql://192.168.2.31:3306/Demo1", "root", "root");
+        Connection conn1 = DriverManager.getConnection("jdbc:mysql://192.168.2.31:3306/Demo1?serverTimezone=GMT", "root", "root");
         XAConnection xaConn1 = new MysqlXAConnection((ConnectionImpl) conn1, logXaCommands);
         XAResource rm1 = xaConn1.getXAResource();
 
         // 获得资源管理器操作接口实例 RM2
-        Connection conn2 = DriverManager.getConnection("jdbc:mysql://192.168.2.31:3306/test", "root", "root");
+        Connection conn2 = DriverManager.getConnection("jdbc:mysql://192.168.2.31:3306/test?serverTimezone=GMT", "root", "root");
         XAConnection xaConn2 = new MysqlXAConnection((ConnectionImpl) conn2, logXaCommands);
         XAResource rm2 = xaConn2.getXAResource();
         // AP请求TM执行一个分布式事务，TM生成全局事务id
